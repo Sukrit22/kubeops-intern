@@ -1,0 +1,134 @@
+1. Describe Git branching strategies (Git-flow, single branch, feature branch etc.) which
+you have used and what purpose it serves.
+	The only strategy I have used is the Single branch strategy. I have seen Git-flow before when you branch into master, stable, beta or master or production and development. And I have also considered using feature branch strategy but it confused me the most. Due to my characteristic, I usually jump between branches and sometimes it change some environmental files so it make going back and forth make the code error and it scared me since. The purpose of single branch that I know of is its simplicity. I just have to commit and describe what I’ve done, usually I did it in the comment describing each line. I used git mainly to save the code from disappearance, resulting from hardware false.
+
+2. How do you revert a commit that has already been pushed and made public?
+	In the sense of the words put up in the question, I felt like you wanted to “remove” your commit from the version control and made it not able to be seen publicly, then there’s something called “git reset” or “git rebase” but I have never used those before. I also know a command called “git revert” that appeared to have the same word from your question. This command will revert what the commit, you choose, change, as its name implies. This command will just create another commit with the changes remove. So it would still show up in git log.
+	I would suggest you to use “git rebase” to rearrange your commit and use “git reset” to remove the commit forever.
+ 
+3. How do you normally solve conflicts in a feature branch before merge?
+	I’ve stated that I have never use feature branching strategy before, but if I have to think up of a solution, a way to solve the conflicts, I would say, you branch a new branch for each feature, supposedly between two features as “featureA-merging” and “featureB-merging” then merge the two together or something. Try to resolve the issue then make note describe the conflicts you encountered. After that, consider merging the branches at your own risk. Haha.
+
+4. “200 OK” what does it mean and show the use case of this HTTP Status?
+	200 OK is a http status, saying that your request is successful, the response you’re going to receive is what you most likely expecting.
+	The use case of this is that you respond back “200 OK” if the request coming in to your server is valid, and pass all the case you prepare to intercept it. It should be responded back as “200 OK” to tell the client that the action passed have been done successfully. Any other cases should be using other HTTP status as it may cause a confusion or for the sake of debugging.
+
+5. “201 Created” what does it mean and show the use case of this HTTP Status?
+	201 Created, as its message implies, it create a new resource on the server. Usually be used with POST request, 201 means the request create a new resource while 200 indicates that the data sent with the request has been processed successfully.
+
+6. “301 Moved Permanently” what does it mean and show the use case of this HTTP
+Status?
+	301 implies that your there’s no data on your destination and it has been moved to another URL. The 301 is most likely used to intercept the old like left somewhere to prevent the broken link or intercept HTTP insecure request and redirect to a HTTPS one. Some use cases are when you move your site to a new different domain or reorder/restructure your sub-domain or your path
+
+7. “400 Bad Request” what does it mean and how to identify the problem?
+	400 implies that the request sent is not understandable by the server, either the request’s body or parameters and invalid/malformed or parse into an improper format. Sometimes cause by developer or sometimes implies that someone is trying to hack your server by injecting the request. The identification to the problem is usually included within the response itself, in “message”/“errmsg” section. For starter, you could look into the parameters or the data in the body you’re sending if it is valid. Sometimes it implies the authorization issue, but that is for another HTTP status to resolve.
+
+8. “401 Unauthorized” what does it mean and how to identify the problem?
+	This indicated that the request is not valid to access the requested resource. Usually fall on either of these 2 categories, 1. Incorrect credentials or method, 2. Insufficient permissions.
+	To identify your problem you would most likely need to look into your own code or find and read up some documents regarding the APIs whether the APIs you’re using do not support your current authentication method. Or you actually use an invalid credentials. If the problem is with the permission try to use the credentials that has more permission.
+
+9. “403 Forbidden” what does it mean and how to identify the problem?
+	401 and 403 boundaries are sometimes overlapping each others, but 403 implies a strong meaning that, even your request is valid, you do not have enough permission to access the resource. Even though, sometimes this is caused by a Firewall blocking your IP or WAF detected your request as an attack. To identify the problem, I suggest you try to minimize or find the section or part of your services that send this response. Try finding the log on each of the services between the traffic or disable some services you think is the root cause of this, then modify your code or rules in your security services to go alongside each other.
+
+10. “404 Not Found” what does it mean and how to identify the problem?
+	This indicated that the server couldn’t find or locate your resources. Typically when the resource is deleted or the URL is out-dated. To identify the problem, you would most likely need to follow your code, in the api and pin-point out which possible scenario would most likely occurred. Sometimes, not only deleted resources or outdated URLs, but also 404 Not Found may be used by the developer to indicate an insufficient permission from the client side. Server logs is your best friend.
+
+11. “500 Internal Server Error” what does it mean and how to identify the problem?
+	This is a generic error status saying something happened on the server side. Try checking server logs for some useful information or in another case is that the user that run the server services do not have permission to read write a specific file.
+
+12. “502 Bad Gateway” what does it mean and how to identify the problem?
+	This is usually sent from a proxy server either a load balancer or reverse proxy or in some case, WAF. It indicates that the proxy received an invalid upstream response.
+	To identify the problem, try checking server’s, proxy’s or upstream’s log. Sometimes it can be either connectivity issue or resource exhaustion.
+
+13. “503 Service Unavailable” what does it mean and how to identify the problem?
+	This indicates that the server is unable to handle the request sent by the client, usually temporarily. There are quite some reasons, either the server is under maintenance, the exhaustion or after maintenance human error, like a misconfiguration.
+	To identify the problem, try checking server’s, proxy’s or upstream’s log and configuration. Sometimes it can be from hosting providers so be sure to check on them too.
+
+14. “504 Gateway Timeout” what does it mean and how to identify the problem?
+	This one is closed to 502, but instead of an invalid response, it’s because a timed out.
+	To identify the problem, try checking server’s, proxy’s or upstream’s log and configuration. Sometimes it can be either connectivity issue or resource exhaustion.
+
+15. What Linux network tools do you use for troubleshooting network problems as well as
+usage scenarios for each tool?
+	Ping : usually used to send an ICMP packet to check if the destination host is up. If timed out it can probably be because of a firewall blocking the traffic. Destination unreachable indicates that there’s no route to the host’s ip.
+	Traceroute : to trace the route that the packet used to go to the host and reporting the ip of the route that the packet passed back to the user. Usually used to identify routing issue.
+	Netcat : used to send message with TCP or UDP protocol, check if the TCP port is open and can sometimes check if the UDP port is too open, by sending a UDP message if the port is close the server will response back with an ICMP message of type 3, code 3.
+	Telnet : for simple checking if TCP port is opened. Or used for shell to server but it’s not secure. 
+	Does firewall program count as networking tools? Then : ufw, firewalld, iptables and nftables
+	Openvpn : is usually not pre-installed, as it name implies, vpn, layer 3
+	Some network configuring software? : netplan, or nmtui for Ubuntu and Cent OS respectively.
+	Ifconfig, ip address : show ip address and the former can do operation on the interfaces.
+	HPing : loadtest, network scan, security testing.
+	Wireshark and tcpdump : packet capture and filtering, wireshark can capture on Wifi and Bluetooth which tcpdump can not.
+	Nmap : port and host discovery. OS, service and vulnerability scan.
+	Curl ? send simple or complicated request. Testing if server is reachable with domain name resolving to IP
+
+Intermediate
+1. Assume we have an application that is designed as below. Our application stopped
+responding due to an extremely high number of clients in some circumstances.
+- We have tried scaling a number of API Gateway and Service A nodes but it didn’t help.
+What are the possible problems that lies in our system in which components and how
+to fix them?
+	Probably something that isn’t mentioned above, like database for one if high traffic can affect it or the network in between, assume that high load cause a congestion.
+	Set up another server in another cloud platform or zone redundant.
+	Check on resource of each services to know where the congestion is at(resource exhaustion).
+	If it is configured to be scalable, do it, if not, manually config it then.
+
+2. How do you keep the docker image smallest as possible?
+	1. Use the smallest possible base image.
+	2. Copy only what is necessary.
+
+3. How does the Kubernetes service talk to each other in the same cluster?
+	Inside a Kubernetes cluster, when a service/pod is created, it is assigned an end-point, most likely an ip within the Kubernetes private network and a record on the cluster’s DNS
+
+4. What’s different between L2, L4, and L7 Load balancers? When to use it?
+	L2 is used local network, to balance load between a cluster of servers that are on the same LAN.
+	L4 is used to perform load balancing across WAN like to a CDN, to another geological site or even the same site.
+	L7, this one perform at Layer 7, application type. Can perform content-based switching, which read the headers, cookies or even contents to select the most appropriate server to handle the request, for example SSL offloading and content caching.
+
+Professional
+1. Assume that you are using a private cloud for your infrastructure. How do you manage
+logs, metrics, and alerts for your infrastructure and applications? Which tools do you
+use and why?
+	I have seen some tools during my profession, some of them are called, Zabbix, ELK stack and  site24x7. For log management, I would recommend the stack as that is its strongest suit while the other two are great at metric and alert. If possible I would use the stack as it’s a lot of integration to allow it to do the metric and alert management also. Price-wise, Zabbix and elk is kind of free except for the infrastructure price to host the services.
+
+2. How do you secure the following?
+· application
+· infrastructure
+· data
+	For application, I would use a firewall and allow connection only from trusted source or VPN with 2 or multi factor authentication. As a programmer myself, I would secure it since the developing phase since it allow many possibilities of integration. Such as encryption, backup process or clustering.
+	For infrastructure, physically I would keep it in a safe environment with sensor for disaster like fire and water, with security guard or some sort of access control. Logically I would have an access control to authenticate the users access it with log management.
+	For data, I would gauge its risk and confidential level first and come up with a plan to secure it. Like encryption on transit, at rest or while in memory, things like that. Have a regular backup schedule, at multiple locations. Have a penetration testing for my entire domain, while comparing the cost and damage on assets
+
+3. Based on your experience, how do you reduce your service downtime as much as
+possible during
+· software upgrade
+· database migration
+· incident
+	You will have to know first if the software upgrade or going to be compatible with the version before the upgrade or not then act accordingly, if compatible, and assumed that the upgrade is already tested, I will have another site and have a balancer redirect all the load to that site while the main node is upgrading. If not, this is a serious matter, and the downtime is guaranteed. There may probably be nothing much to do for infrastructure except changing config on the server. But from my perspective, we can avoid that with an experienced developer.
+	Database migration, usually nowadays, they all support clustering and migration out of the box we can set up another site to migrate to and config or follow the procedure from the database provider to allow a downtime-less migration. If downtime is unavoidable, I would rule out what cause the downtime and then plan to complete the step before and ahead the process to have the after migration process be ready as soon as possible when the downtime phase is done.
+	Incident, the most ideal scenario to do on my mind is to rule out what we know that could cause an incident, part failure, software, data. We then have an action plan for each one we think up then the scenario or error that is going to occur while the recovering is happening.
+
+4. How do you design your Kubernetes cluster? what DNS, CNI, ingression is being used?
+Why?
+	I would design my K8s to have High Availability, Security, Scalability and Monitoring. First you have to know what is the purpose of your cluster, your risk&threat
+	I believe K8s has its own DNS called CoreDNS and also able to use external DNS service.
+	From my research, Flannel would fit me best as it is designed to be easy to use, and as a beginner I would start small size cluster first, which would be ideal for me.
+	Ingression, I would prefer using Nginx as I have the experience required for most used scenario for the tool.
+
+5. How do you design your Cloud infrastructure? (Answer as draw.io or your tool of
+choices)
+- Networking
+- Security
+- Data Durability
+- High Availability
+- Autoscaling
+	In 
+
+6. How do you measure service quality to give the best experience to your customer?
+(SLO, SLA)
+	Measure to give the best experience? 
+
+7. How do you design a highly scalable Kubernetes cluster and which Kubernetes objects
+are being used? (answer as drawio or your tool of choices)
+	In 
